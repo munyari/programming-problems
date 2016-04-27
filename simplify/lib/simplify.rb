@@ -1,27 +1,29 @@
 require 'pry'
 
 def simplify(poly)
-  terms = poly.split(/([+-]?\d*[a-z]+)/).reject(&:empty?)
-  # binding.pry
+  terms = split_polynomial(poly)
+  coefficients = get_term_coeff(terms)
+  # sorted by length, and then alphabetically
+  sorted = sort_by_len_alpha(coefficients)
+  join_polynomial(sorted)
+end
+
+def get_term_coeff(terms)
   coefficients = Hash.new(0)
-  terms.each do |t|
-    #get the variable part only
-    variable = t[/[a-z]+$/].chars.sort.join
-    if is_negative(t)
-      coefficients[variable] -= coefficient(t)
-    else
-      # TODO: This breaks if first term in the sequence
-      coefficients[variable] += coefficient(t)
-    end
-    # binding.pry
+  terms.each do |term|
+    variable = extract_variable(term)
+    coefficients[variable] += coefficient(term)
   end
-  # sorted first lexicographically
-  by_alpha = coefficients.sort_by { |var, n| var }
-  by_len = by_alpha.sort_by { |var, n| var.length }
+  coefficients
+end
+
+def extract_variable(term)
+  term[/[a-z]+$/].chars.sort.join
+end
+
+def join_polynomial(coefficients)
   result = ""
-  # binding.pry
-  by_len.each do |var, n|
-    next if n == 0
+  coefficients.each do |var, n|
     case
     when n == 1
       coeff = "+"
@@ -33,10 +35,17 @@ def simplify(poly)
       coeff = "-#{n.to_s}"
     end
     result += "#{coeff}#{var}"
-    # binding.pry
   end
   result = result[1..-1] if result[0] == '+'
-  result
+  result.gsub(/[-]+/, "-")
+end
+
+def sort_by_len_alpha(coefficients)
+  coefficients.sort_by { |var, n| [var.length, var] }.reject { |var, n| n == 0 }
+end
+
+def split_polynomial(poly)
+  poly.split(/([+-]?\d*[a-z]+)/).reject(&:empty?)
 end
 
 def is_negative(term)
@@ -44,11 +53,10 @@ def is_negative(term)
 end
 
 def coefficient(term)
-  if term[/^[+-]?[a-z]+$/]
+  return -1 * coefficient(term[1..-1]) if is_negative(term)
+  if term[/^[+]?[a-z]+$/]
     1
   else
     term[/\d+/].to_i
   end
 end
-
-simplify("-c+5ab")
