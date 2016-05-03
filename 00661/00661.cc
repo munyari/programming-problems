@@ -4,7 +4,7 @@ int main()
 {
   int n, m, c, curr, max, seq = 0;
   bool blown;
-  while (scanf("%d %d %d", &n, &m, &c) && n && m && c)
+  while (scanf("%d %d %d", &n, &m, &c), n || m || c)
   {
     printf("%sSequence %d\n", seq > 1 ? "\n" : "", ++seq);
     blown = false; 

@@ -5,8 +5,10 @@ int main()
   int n, w, y1, y2, diff;
   bool res;
   scanf("%d", &n);
-  while (n--)
+  for (int i = 0; i < n; i++)
   {
+    if (i >= 1)
+      printf("\n");
     scanf("%d", &w);
     scanf("%d %d", &y1, &y2);
     diff = y1 - y2;
@@ -20,7 +22,8 @@ int main()
         break;
       }
     }
-    printf(res ? "yes\n" : "no\n");
+    printf(res ? "yes" : "no");
+    printf("\n");
   }
   return 0;
 }
