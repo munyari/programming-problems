@@ -1,16 +1,16 @@
 pub fn raindrops(num: u32) -> String {
     let mut result: String = String::new();
     if num % 3 == 0 {
-        result = result + "Pling";
+        result.push_str("Pling")
     }
     if num % 5 == 0 {
-        result = result + "Plang";
+        result.push_str("Plang")
     }
     if num % 7 == 0 {
-        result = result + "Plong";
+        result.push_str("Plong")
     }
-    if result.len() == 0 {
-        return num.to_string();
+    if result.is_empty() {
+        result.push_str(&num.to_string());
     }
     return result;
 }
