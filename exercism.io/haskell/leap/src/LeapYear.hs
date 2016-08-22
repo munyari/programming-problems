@@ -1,3 +1,7 @@
 module LeapYear (isLeapYear) where
 
-isLeapYear x = (mod x 4 == 0) && (mod x 100 > 0 || mod x 400 == 0)
+isLeapYear year
+    | year `mod` 400 == 0 = True
+    | year `mod` 100 == 0 = False
+    | year `mod` 4 == 0   = True
+    | otherwise           = False
