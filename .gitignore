@@ -2,3 +2,4 @@ tags
 # rust
 */*/*/target/*
 Cargo.lock
+*/*/*/.stack-work/*
