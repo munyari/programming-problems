@@ -19,10 +19,14 @@ impl DeoxyribonucleicAcid {
     }
 
     pub fn to_rna(&self) -> RibonucleicAcid {
-        let rna_str: String = self.string.chars()
-            .map(|x| match x {'G' => 'C', 'C' => 'G', 'T' => 'A', 'A' => 'U',
-                              _ => 'X'})
-            .collect();
+        let rna_str = self.string.chars()
+            .filter_map(|x| match x {
+                'G' => Some('C'),
+                'C' => Some('G'),
+                'T' => Some('A'),
+                'A' => Some('U'),
+                 _  => None})
+            .collect::<String>();
         RibonucleicAcid::new(&rna_str)
     }
 }
