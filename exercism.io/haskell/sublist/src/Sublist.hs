@@ -8,16 +8,10 @@ data Sublist = Equal | Unequal | Sublist | Superlist
 
 sublist :: Eq a => [a] -> [a] -> Sublist
 sublist xs ys
-    | isEqual xs ys = Equal
+    | xs == ys        = Equal
     | isSublist xs ys = Sublist
     | isSublist ys xs = Superlist
-    | otherwise = Unequal
-
-isEqual :: Eq a => [a] -> [a] -> Bool
-isEqual [] [] = True
-isEqual [] _ = False
-isEqual _ [] = False
-isEqual (x:xs) (y:ys) = x == y && isEqual xs ys
+    | otherwise       = Unequal
 
 isSublist :: Eq a => [a] -> [a] -> Bool
 isSublist [] _ = True
